@@ -1,10 +1,32 @@
-import C from './constants'
+import { createStore, applyMiddleware } from 'redux'
 
-const initialState = (localStorage['redux-store']) ?
-	JSON.parse(localStorage['redux-store']) :
-	{}
+const consoleMessages = store => next => action => {
 
-const saveState = () => {
-	const state = JSON.stringify(store.getState())
-	localStorage['redux-store'] = state
+	let result
+
+	console.groupCollapsed(`dispatching action => ${action.type}`)
+	console.log('ski days', store.getState().allSkiDays.length)
+	result = next(action)
+
+	let { allSkiDays, goal, errors, resortNames } = store.getState()
+
+	console.log(`
+
+		ski days: ${allSkiDays.length}
+		goal: ${goal}
+		fetching: ${resortNames.fetching}
+		suggestions: ${resortNames.suggestions}
+		errors: ${errors.length}
+
+	`)
+
+	console.groupEnd()
+
+	return result
+
 }
+
+export default (initialState={}) => {
+	return applyMiddleware(consoleMessages)(createStore)(appReducer, initialState)
+}
+
