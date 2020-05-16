@@ -1,8 +1,15 @@
 import React from 'react';
 import './App.css';
+import Playground from './PlayGround'
 
 function App() {
-
+  const fullName = "Jen James";
+  let firstName;
+  if(fullName){
+    firstName = fullName.split(' ')[0];
+    console.log(firstName);
+  }
+  console.log(firstName);
     const myApp = {
         title: 'Indecision App',
         subtitle: 'Your subtitle come here',
@@ -33,6 +40,7 @@ function App() {
             <p>{myApp.options.length > 0 ? 'Here are Options': 'No Options'}</p>}
         </ul>
       </header>
+      <Playground/>
     </div>
   );
 }
